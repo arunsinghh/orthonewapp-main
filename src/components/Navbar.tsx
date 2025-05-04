@@ -8,7 +8,7 @@ function Navbar() {
   const [moreOpen, setMoreOpen] = useState(false);
 
   return (
-    <nav className="bg-blue-600 text-white">
+    <nav className="bg-blue-600 text-white sticky top-0 z-50">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           <Link to="/" className="text-xl font-bold">
@@ -63,14 +63,18 @@ function Navbar() {
               >
                 Services <ChevronDown className="w-4 h-4" />
               </button>
-              {servicesOpen && (
-                <div className="bg-blue-100 text-gray-800 space-y-1 px-6 py-2">
+              <div
+                className={`transition-all duration-300 ease-in-out overflow-hidden ${
+                  servicesOpen ? 'max-h-[500px] py-2' : 'max-h-0'
+                }`}
+              >
+                <div className="flex flex-col space-y-1 px-6 text-gray-800 bg-blue-100">
                   <Link to="/prosthetic-services" className="block">Prosthetic Services</Link>
                   <Link to="/orthotic-services" className="block">Orthotic Services</Link>
                   <Link to="/diabetic-care" className="block">Diabetic Foot & Wound Care</Link>
                   <Link to="/pediatric-care" className="block">Pediatric Care</Link>
                 </div>
-              )}
+              </div>
             </div>
 
             {/* More Dropdown */}
@@ -81,12 +85,16 @@ function Navbar() {
               >
                 More <ChevronDown className="w-4 h-4" />
               </button>
-              {moreOpen && (
-                <div className="bg-blue-100 text-gray-800 space-y-1 px-6 py-2">
+              <div
+                className={`transition-all duration-300 ease-in-out overflow-hidden ${
+                  moreOpen ? 'max-h-[500px] py-2' : 'max-h-0'
+                }`}
+              >
+                <div className="flex flex-col space-y-1 px-6 text-gray-800 bg-blue-100">
                   <Link to="/gallery" className="block">Photo Gallery</Link>
                   <Link to="/facility" className="block">Our Facility</Link>
                 </div>
-              )}
+              </div>
             </div>
           </div>
         )}
