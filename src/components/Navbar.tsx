@@ -7,6 +7,12 @@ function Navbar() {
   const [servicesOpen, setServicesOpen] = useState(false);
   const [moreOpen, setMoreOpen] = useState(false);
 
+  const handleClose = () => {
+    setMobileOpen(false);
+    setServicesOpen(false);
+    setMoreOpen(false);
+  };
+
   return (
     <nav className="bg-blue-600 text-white sticky top-0 z-50">
       <div className="container mx-auto px-4">
@@ -69,10 +75,10 @@ function Navbar() {
                 }`}
               >
                 <div className="flex flex-col space-y-1 px-6 text-gray-800 bg-blue-100">
-                  <Link to="/prosthetic-services" className="block">Prosthetic Services</Link>
-                  <Link to="/orthotic-services" className="block">Orthotic Services</Link>
-                  <Link to="/diabetic-care" className="block">Diabetic Foot & Wound Care</Link>
-                  <Link to="/pediatric-care" className="block">Pediatric Care</Link>
+                  <Link to="/prosthetic-services" className="block" onClick={handleClose}>Prosthetic Services</Link>
+                  <Link to="/orthotic-services" className="block" onClick={handleClose}>Orthotic Services</Link>
+                  <Link to="/diabetic-care" className="block" onClick={handleClose}>Diabetic Foot & Wound Care</Link>
+                  <Link to="/pediatric-care" className="block" onClick={handleClose}>Pediatric Care</Link>
                 </div>
               </div>
             </div>
@@ -91,8 +97,8 @@ function Navbar() {
                 }`}
               >
                 <div className="flex flex-col space-y-1 px-6 text-gray-800 bg-blue-100">
-                  <Link to="/gallery" className="block">Photo Gallery</Link>
-                  <Link to="/facility" className="block">Our Facility</Link>
+                  <Link to="/gallery" className="block" onClick={handleClose}>Photo Gallery</Link>
+                  <Link to="/facility" className="block" onClick={handleClose}>Our Facility</Link>
                 </div>
               </div>
             </div>
