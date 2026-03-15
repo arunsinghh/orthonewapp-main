@@ -63,8 +63,14 @@ const Footer: React.FC = () => {
           </p>
 
           <p>
-            📍 Ground Floor, 87, opposite Select Citywalk Mall, Khirki Extension, Malviya Nagar, New Delhi, Delhi 110017
-          </p>
+  <a
+    href="https://www.google.com/maps?q=Ground+Floor,+87,+opposite+Select+Citywalk+Mall,+Khirki+Extension,+Malviya+Nagar,+New+Delhi,+Delhi+110017"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    📍 Ground Floor, 87, opposite Select Citywalk Mall, Khirki Extension, Malviya Nagar, New Delhi, Delhi 110017
+  </a>
+</p>
 
           <p>
             <a href="mailto:info@orthoproindia.com">
