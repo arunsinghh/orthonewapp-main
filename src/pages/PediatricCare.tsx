@@ -7,7 +7,7 @@ function PediatricCare() {
       <div className="grid md:grid-cols-2 gap-8">
         <div>
           <img
-            src="images/pediatric.jpeg"
+            src="public/images/pediatric.webp"
             alt="Pediatric Care"
             className="rounded-lg shadow-md mb-6"
           />
@@ -15,7 +15,7 @@ function PediatricCare() {
           <p className="text-gray-600 mb-6">
             Our pediatric care services are specifically designed to address the unique needs of children requiring prosthetic and orthotic care. We create a comfortable, child-friendly environment while delivering expert care.
           </p>
-          
+
           <div className="bg-white p-6 rounded-lg shadow-md mb-6">
             <h3 className="text-xl font-semibold text-blue-600 mb-3">Our Pediatric Services:</h3>
             <ul className="list-disc list-inside space-y-2 text-gray-600">

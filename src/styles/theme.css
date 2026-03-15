@@ -1,0 +1,9 @@
+.primary-btn{
+  background:var(--primary);
+  color:white;
+  padding:14px 28px;
+  border-radius:var(--radius-btn);
+  border:none;
+  cursor:pointer;
+  box-shadow:var(--shadow-soft);
+}

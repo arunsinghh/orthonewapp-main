@@ -1,0 +1,125 @@
+.reviews{
+  position:relative;
+  padding:20px 0;
+  overflow:hidden;
+  background:#f7fcfb;
+}
+
+/* PARALLAX BACKGROUND */
+.parallax-bg{
+  position:absolute;
+  inset:0;
+  background:url("/images/clinic-bg.webp") center/cover no-repeat;
+  opacity:0.08;
+  transform:translateZ(0);
+  z-index:0;
+}
+
+/* Floating Medical Icons */
+.floating-medical{
+  position:absolute;
+  font-size:70px;
+  color:rgba(31,182,166,0.08);
+  animation:float 6s ease-in-out infinite;
+  z-index:1;
+}
+
+.icon-a{ top:15%; left:8%; }
+.icon-b{ bottom:20%; right:12%; animation-delay:2s; }
+.icon-c{ top:50%; right:25%; animation-delay:4s; }
+
+@keyframes float{
+  0%,100%{ transform:translateY(0); }
+  50%{ transform:translateY(-25px); }
+}
+
+/* Title */
+.section-title{
+  text-align:center;
+  font-size:40px;
+  margin-bottom:25px;
+  color:#0A2540;
+  position:relative;
+  z-index:2;
+}
+
+/* Rating Badge */
+.rating-badge{
+  text-align:center;
+  font-size:16px;
+  background:linear-gradient(135deg,#1FB6A6,#0A2540);
+  color:white;
+  display:inline-block;
+  padding:8px 20px;
+  border-radius:30px;
+  margin:0 auto 60px;
+  position:relative;
+  left:50%;
+  transform:translateX(-50%);
+  z-index:2;
+}
+
+/* Large Testimonial Card */
+.review-card.large{
+  max-width:800px;
+  margin:auto;
+  text-align:center;
+  background:rgba(255,255,255,0.7);
+  backdrop-filter:blur(16px);
+  border-radius:28px;
+  padding:60px 50px;
+  box-shadow:0 30px 80px rgba(0,0,0,0.1);
+  position:relative;
+  z-index:2;
+}
+
+/* Quote Icon */
+.quote-icon{
+  font-size:80px;
+  color:#1FB6A6;
+  opacity:0.2;
+  position:absolute;
+  top:30px;
+  left:40px;
+}
+
+/* Stars */
+.stars{
+  font-size:20px;
+  color:#FFC107;
+  margin-bottom:25px;
+}
+
+/* Review Text */
+.review-card p{
+  font-size:18px;
+  color:#444;
+  line-height:1.8;
+  margin-bottom:30px;
+}
+
+/* Name */
+.review-card h4{
+  font-size:16px;
+  color:#0A2540;
+  font-weight:600;
+}
+
+/* MOBILE */
+@media(max-width:900px){
+  .reviews{
+    padding:20px 0;
+  }
+
+  .review-card.large{
+    padding:40px 25px;
+  }
+
+  .section-title{
+    font-size:28px;
+  }
+
+  .review-card p{
+    font-size:15px;
+  }
+}

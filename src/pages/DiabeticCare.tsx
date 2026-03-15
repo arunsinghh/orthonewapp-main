@@ -7,7 +7,7 @@ function DiabeticCare() {
       <div className="grid md:grid-cols-2 gap-8">
         <div>
           <img
-            src="images/diabetic.jpeg"
+            src="images/diabetic.webp"
             alt="Diabetic Foot Care"
             className="rounded-lg shadow-md mb-6"
           />

@@ -8,7 +8,7 @@ function ProstheticServices() {
       <div className="grid md:grid-cols-2 gap-8">
         <div>
           <img
-            src="images/prosthetic.png"
+            src="images/prosthetic.webp"
             alt="Prosthetic Fitting"
             className="rounded-lg shadow-md mb-6"
           />

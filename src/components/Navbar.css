@@ -1,0 +1,257 @@
+/* =========================
+   NAVBAR BASE
+========================= */
+
+.navbar{
+  position: fixed;
+  top: 0px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 95%;
+  max-width: 1200px;
+  padding: 14px 25px;
+  border-radius: 18px;
+
+  background: rgba(255,255,255,0.25);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+
+  border: 1.5px solid rgba(255,255,255,0.4);
+  transition: all 0.3s ease;
+  z-index: 1200;
+}
+
+.navbar.active{
+  background: rgba(255,255,255,0.9);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
+/* =========================
+   WRAPPER
+========================= */
+
+.nav-wrapper{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+/* =========================
+   LOGO
+========================= */
+
+.logo{
+  display:flex;
+  align-items:center;
+}
+
+.logo a{
+  font-weight:700;
+  font-size:20px;
+  text-decoration:none;
+  color:#0A2540;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+/* =========================
+   DESKTOP MENU
+========================= */
+
+.nav-menu{
+  display:flex;
+  gap:30px;
+  list-style:none;
+  align-items:center;
+}
+
+.nav-menu li{
+  position:relative;
+}
+
+.nav-menu a{
+  text-decoration:none;
+  color:#0A2540;
+  font-weight:500;
+  transition:0.3s;
+}
+
+.nav-menu a:hover{
+  color:#1FB6A6;
+}
+
+/* =========================
+   DROPDOWN
+========================= */
+
+.dropdown{
+  position:relative;
+}
+
+.dropdown-menu{
+  position:absolute;
+  top:38px;
+  left:0;
+  background:white;
+  padding:15px;
+  border-radius:12px;
+  box-shadow:0 15px 40px rgba(0,0,0,0.1);
+  list-style:none;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  min-width:200px;
+  animation: fadeIn 0.25s ease;
+}
+
+@keyframes fadeIn{
+  from{ opacity:0; transform:translateY(10px); }
+  to{ opacity:1; transform:translateY(0); }
+}
+
+/* =========================
+   BOOK BUTTON
+========================= */
+
+.book-btn{
+  background:#0A2540;
+  color:white;
+  padding:10px 22px;
+  border-radius:30px;
+  text-decoration:none;
+  font-weight:600;
+  transition:0.3s;
+}
+
+.book-btn:hover{
+  background:#1FB6A6;
+}
+
+/* =========================
+   HAMBURGER
+========================= */
+
+.hamburger{
+  display:none;
+  flex-direction:column;
+  gap:5px;
+  cursor:pointer;
+  z-index:1300;
+}
+
+.hamburger span{
+  width:25px;
+  height:3px;
+  background:#0A2540;
+  border-radius:3px;
+  transition:0.3s;
+}
+
+.hamburger.active span:nth-child(1){
+  transform:rotate(45deg) translate(5px,5px);
+}
+
+.hamburger.active span:nth-child(2){
+  opacity:0;
+}
+
+.hamburger.active span:nth-child(3){
+  transform:rotate(-45deg) translate(6px,-6px);
+}
+
+/* =========================
+   MOBILE MENU
+========================= */
+
+.mobile-menu{
+  position:fixed;
+  top:0;
+  right:-100%;
+  width:75%;
+  max-width:320px;
+  height:100vh;
+  background:white;
+  padding:100px 30px;
+  display:flex;
+  flex-direction:column;
+  gap:25px;
+  transition:0.4s cubic-bezier(.77,0,.18,1);
+  box-shadow:-10px 0 40px rgba(0,0,0,0.15);
+  z-index:1300;
+}
+
+.mobile-menu.open{
+  right:0;
+}
+
+.mobile-menu a{
+  text-decoration:none;
+  color:#0A2540;
+  font-size:16px;
+  font-weight:500;
+}
+
+.mobile-services-title{
+  font-weight:600;
+  cursor:pointer;
+}
+
+.mobile-submenu{
+  display:flex;
+  flex-direction:column;
+  gap:15px;
+  margin-left:15px;
+}
+
+/* Mobile Book Button */
+
+.mobile-book-btn{
+  background:linear-gradient(135deg,#0A2540,#1FB6A6);
+  color:white;
+  padding:16px 20px;
+  border-radius:40px;
+  text-align:center;
+  text-decoration:none;
+  font-weight:600;
+  margin-top:20px;
+}
+
+/* =========================
+   OVERLAY
+========================= */
+
+.mobile-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.35);
+  backdrop-filter:blur(3px);
+  z-index:1250;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:900px){
+
+  .desktop{
+    display:none;
+  }
+
+  .hamburger{
+    display:flex;
+  }
+
+  .nav-wrapper{
+    width:100%;
+  }
+
+  .logo{
+    margin-right:auto;
+  }
+
+  .hamburger{
+    margin-left:auto;
+  }
+}

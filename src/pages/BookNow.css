@@ -1,0 +1,108 @@
+.booking{
+  padding:25px 0;
+  background:linear-gradient(135deg,#f8fbff,#eef7f5);
+}
+
+.booking-wrapper{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:60px;
+  align-items:center;
+}
+
+/* LEFT INFO */
+.booking-info h2{
+  font-size:36px;
+  margin-bottom:20px;
+  color:#0A2540;
+}
+
+.booking-info p{
+  margin-bottom:25px;
+  color:#5b697a;
+  line-height:1.6;
+}
+
+.booking-trust{
+  background:rgba(255,255,255,0.6);
+  backdrop-filter:blur(10px);
+  padding:20px;
+  border-radius:16px;
+  font-weight:500;
+  line-height:1.8;
+  box-shadow:0 10px 30px rgba(0,0,0,0.05);
+}
+
+/* FORM */
+.booking-form{
+  background:rgba(255,255,255,0.7);
+  backdrop-filter:blur(14px);
+  padding:40px;
+  border-radius:20px;
+  display:flex;
+  flex-direction:column;
+  gap:20px;
+  box-shadow:0 15px 40px rgba(0,0,0,0.08);
+}
+
+.booking-form input,
+.booking-form select,
+.booking-form textarea{
+  padding:14px;
+  border-radius:12px;
+  border:1px solid #dfe6ee;
+  font-size:14px;
+  outline:none;
+  transition:0.3s;
+}
+
+.booking-form input:focus,
+.booking-form select:focus,
+.booking-form textarea:focus{
+  border-color:#1FB6A6;
+  box-shadow:0 0 0 2px rgba(31,182,166,0.2);
+}
+
+.whatsapp-btn{
+  background:#25D366;
+  color:white;
+  text-align:center;
+  padding:14px;
+  border-radius:30px;
+  text-decoration:none;
+  font-weight:600;
+  transition:0.3s;
+}
+
+.whatsapp-btn:hover{
+  opacity:0.9;
+}
+
+.success-message{
+  background:#e6f9f1;
+  color:#1FB6A6;
+  padding:12px;
+  border-radius:10px;
+  font-size:14px;
+  text-align:center;
+}
+
+/* MOBILE */
+@media(max-width:900px){
+
+  .booking-wrapper{
+    grid-template-columns:1fr;
+  }
+
+  .booking{
+    padding:0px 0;
+  }
+
+  .booking-form{
+    padding:25px;
+  }
+
+  .booking-info h2{
+    font-size:28px;
+  }
+}

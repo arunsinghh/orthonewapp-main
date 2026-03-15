@@ -1,0 +1,62 @@
+/* RESET */
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+/* BODY */
+body{
+  font-family: Inter, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* HEADINGS */
+h1,h2,h3{
+  font-family: Poppins, sans-serif;
+}
+
+/* SECTION SPACING */
+section{
+  padding:80px 0;
+}
+
+@media(max-width:900px){
+  section{
+    padding:60px 0;
+  }
+}
+
+/* CONTAINER */
+.container{
+  max-width:1200px;
+  margin:auto;
+  padding:0 20px;
+}
+
+/* FIXED NAVBAR OFFSET */
+.main-padding{
+  padding-top:75px;
+}
+
+@media(max-width:900px){
+  .main-padding{
+    padding-top:80px;
+  }
+}
+
+/* PRIMARY BUTTON */
+.primary-btn{
+  background:#0A2540;
+  color:white;
+  padding:14px 28px;
+  border:none;
+  border-radius:30px;
+  cursor:pointer;
+  transition:.3s;
+}
+
+.primary-btn:hover{
+  transform:translateY(-3px);
+}
