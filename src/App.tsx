@@ -1,4 +1,4 @@
-import React from "react";
+import { Suspense, lazy } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -9,16 +9,21 @@ import {
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import FloatingContact from "./components/FloatingContact";
-import ThankYou from "./pages/ThankYou";
-import Home from "./pages/Home";
-import ProstheticServices from "./pages/ProstheticServices";
-import OrthoticServices from "./pages/OrthoticServices";
-import DiabeticCare from "./pages/DiabeticCare";
-import PediatricCare from "./pages/PediatricCare";
-import Gallery from "./pages/Gallery";
-import Facility from "./pages/Facility";
 import ScrollToTop from "./components/ScrollToTop";
-import BookNow from "./pages/BookNow";
+
+// Lazy Loaded Pages
+const Home = lazy(() => import("./pages/Home"));
+const ProstheticServices = lazy(() => import("./pages/ProstheticServices"));
+const OrthoticServices = lazy(() => import("./pages/OrthoticServices"));
+const DiabeticCare = lazy(() => import("./pages/DiabeticCare"));
+const PediatricCare = lazy(() => import("./pages/PediatricCare"));
+const Gallery = lazy(() => import("./pages/Gallery"));
+const Facility = lazy(() => import("./pages/Facility"));
+const BookNow = lazy(() => import("./pages/BookNow"));
+const ThankYou = lazy(() => import("./pages/ThankYou"));
+const AboutUs = lazy(() => import("./pages/AboutUs"));
+const OurJourney = lazy(() => import("./pages/OurJourney"));
+const Admin = lazy(() => import("./pages/Admin"));
 
 /* Layout Wrapper to use useLocation */
 function Layout() {
@@ -33,17 +38,22 @@ function Layout() {
 
       {/* 👇 Only inner pages get padding */}
       <main className={`flex-grow ${!isHome ? "main-padding" : ""}`}>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/prosthetic-services" element={<ProstheticServices />} />
-          <Route path="/orthotic-services" element={<OrthoticServices />} />
-          <Route path="/diabetic-care" element={<DiabeticCare />} />
-          <Route path="/pediatric-care" element={<PediatricCare />} />
-          <Route path="/gallery" element={<Gallery />} />
-          <Route path="/facility" element={<Facility />} />
-          <Route path="/book-now" element={<BookNow />} />
-          <Route path="/thank-you" element={<ThankYou />} />
-        </Routes>
+        <Suspense fallback={<div className="loading-screen">Loading...</div>}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/prosthetic-services" element={<ProstheticServices />} />
+            <Route path="/orthotic-services" element={<OrthoticServices />} />
+            <Route path="/diabetic-care" element={<DiabeticCare />} />
+            <Route path="/pediatric-care" element={<PediatricCare />} />
+            <Route path="/gallery" element={<Gallery />} />
+            <Route path="/facility" element={<Facility />} />
+            <Route path="/about-us" element={<AboutUs />} />
+            <Route path="/our-journey" element={<OurJourney />} />
+            <Route path="/admin" element={<Admin />} />
+            <Route path="/book-now" element={<BookNow />} />
+            <Route path="/thank-you" element={<ThankYou />} />
+          </Routes>
+        </Suspense>
       </main>
 
       <Footer />

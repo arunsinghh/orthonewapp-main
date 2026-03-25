@@ -2,10 +2,42 @@
 @tailwind components;
 @tailwind utilities;
 
-body{
- font-family:Inter;
+html {
+  scroll-behavior: smooth;
 }
 
-h1,h2,h3{
- font-family:Poppins;
+body {
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3 {
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Global Loading Screen */
+.loading-screen {
+  height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #2563eb;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* Smooth page transitions */
+img {
+  transition: transform 0.3s ease;
+}
+
+a {
+  transition: color 0.2s ease, background-color 0.2s ease;
 }

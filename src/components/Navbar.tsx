@@ -107,6 +107,18 @@ const Navbar = () => {
               </NavLink>
             </li>
 
+            <li>
+              <NavLink to="/about-us" onClick={closeAll}>
+                About Us
+              </NavLink>
+            </li>
+
+            <li>
+              <NavLink to="/our-journey" onClick={closeAll}>
+                Our Journey
+              </NavLink>
+            </li>
+
           </ul>
 
           {/* BOOK BUTTON (DESKTOP) */}
@@ -168,6 +180,8 @@ const Navbar = () => {
 
         <NavLink to="/gallery" onClick={closeAll}>Gallery</NavLink>
         <NavLink to="/facility" onClick={closeAll}>Facility</NavLink>
+        <NavLink to="/about-us" onClick={closeAll}>About Us</NavLink>
+        <NavLink to="/our-journey" onClick={closeAll}>Our Journey</NavLink>
 
         <NavLink
           to="/book-now"

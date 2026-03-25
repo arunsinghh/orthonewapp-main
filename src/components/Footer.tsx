@@ -94,8 +94,10 @@ const Footer: React.FC = () => {
 
       {/* ===== Bottom Bar ===== */}
       <div className="footer-bottom">
-        © {new Date().getFullYear()} OrthoproIndia.
-        All Rights Reserved.
+        <div>© {new Date().getFullYear()} OrthoproIndia. All Rights Reserved.</div>
+        <div style={{ marginTop: '10px', fontSize: '12px', opacity: 0.6 }}>
+          <Link to="/admin" style={{ color: 'inherit', textDecoration: 'none' }}>Admin Access</Link>
+        </div>
       </div>
 
     </footer>

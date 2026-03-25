@@ -1,30 +1,36 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 import "swiper/css";
 import "./Reviews.css";
-
-const reviews = [
-  {
-    name: "Rahul Sharma",
-    text: "OrthoproIndia completely transformed my mobility journey. The care, precision, and support were beyond expectations.",
-    rating: 5,
-  },
-  {
-    name: "Anita Verma",
-    text: "The rehabilitation team is highly professional and truly patient-focused. I felt supported at every step.",
-    rating: 5,
-  },
-  {
-    name: "Vikram Singh",
-    text: "Modern technology with compassionate care. Highly recommend OrthoproIndia for prosthetic solutions.",
-    rating: 5,
-  },
-];
+import ReviewForm from "./ReviewForm";
 
 const Reviews = () => {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [reviews, setReviews] = useState<any[]>([]);
+
+  useEffect(() => {
+    fetch(`${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/reviews`)
+      .then(res => res.json())
+      .then(data => {
+        if (data && data.length > 0) {
+          setReviews(data);
+        } else {
+          // Fallback to static if no reviews in DB
+          setReviews([
+            { name: "Rahul Sharma", text: "OrthoproIndia completely transformed my mobility journey.", rating: 5 },
+            { name: "Anita Verma", text: "The rehabilitation team is highly professional.", rating: 5 }
+          ]);
+        }
+      })
+      .catch(() => {
+         setReviews([
+            { name: "Rahul Sharma", text: "OrthoproIndia completely transformed my mobility journey.", rating: 5 },
+            { name: "Anita Verma", text: "The rehabilitation team is highly professional.", rating: 5 }
+          ]);
+      });
+  }, []);
 
   return (
     <section className="reviews">
@@ -82,6 +88,8 @@ const Reviews = () => {
             </SwiperSlide>
           ))}
         </Swiper>
+
+        <ReviewForm />
 
       </div>
     </section>
