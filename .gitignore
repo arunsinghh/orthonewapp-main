@@ -24,3 +24,6 @@ ortho_database.db
 *.njsproj
 *.sln
 *.sw?
+
+.vercel
+.env*.local

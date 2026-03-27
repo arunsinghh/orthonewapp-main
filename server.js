@@ -5,12 +5,31 @@ import dotenv from "dotenv";
 import sqlite3 from "sqlite3";
 import { open } from "sqlite";
 import asyncHandler from "express-async-handler";
+import jwt from "jsonwebtoken";
 
 dotenv.config();
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+const JWT_SECRET = process.env.JWT_SECRET || "ortho-secret-key-2024";
+const ADMIN_USER = process.env.ADMIN_USERNAME || "admin";
+const ADMIN_PASS = process.env.ADMIN_PASSWORD || "admin123";
+
+// Middleware: Authenticate JWT
+const authenticateToken = (req, res, next) => {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
+
+  if (!token) return res.status(401).json({ message: "Access denied. No token provided." });
+
+  jwt.verify(token, JWT_SECRET, (err, user) => {
+    if (err) return res.status(403).json({ message: "Invalid or expired token." });
+    req.user = user;
+    next();
+  });
+};
 
 // Database Initialization
 let db;
@@ -71,7 +90,15 @@ let db;
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP
       );
     `);
-    console.log("Database expanded with Patient Management tables.");
+
+    // Ensure 'status' column exists in reviews (for migrations)
+    try {
+      await db.run("ALTER TABLE reviews ADD COLUMN status TEXT DEFAULT 'pending'");
+    } catch (e) {
+      // Ignore error if column already exists
+    }
+
+    console.log("Database initialized and missing columns added.");
   } catch (err) {
     console.error("Database Init Error:", err);
   }
@@ -94,10 +121,20 @@ const transporter = nodemailer.createTransport({
   },
 });
 
+// --- AUTH ---
+app.post("/api/login", (req, res) => {
+  const { username, password } = req.body;
+  if (username === ADMIN_USER && password === ADMIN_PASS) {
+    const token = jwt.sign({ user: ADMIN_USER }, JWT_SECRET, { expiresIn: '12h' });
+    return res.json({ token });
+  }
+  res.status(401).json({ message: "Invalid credentials" });
+});
+
 // --- API ENDPOINTS ---
 
 // Patient Management
-app.post("/api/patients", asyncHandler(async (req, res) => {
+app.post("/api/patients", authenticateToken, asyncHandler(async (req, res) => {
   const { name, phone, area, service, notes, next_visit_date } = req.body;
   
   // 1. Generate ID
@@ -121,7 +158,7 @@ app.post("/api/patients", asyncHandler(async (req, res) => {
   });
 }));
 
-app.get("/api/patients/:id", asyncHandler(async (req, res) => {
+app.get("/api/patients/:id", authenticateToken, asyncHandler(async (req, res) => {
   const patient = await db.get('SELECT * FROM patients WHERE patient_id = ?', [req.params.id]);
   if (!patient) return res.status(404).json({ message: "Patient not found" });
 
@@ -129,13 +166,13 @@ app.get("/api/patients/:id", asyncHandler(async (req, res) => {
   res.json({ ...patient, history });
 }));
 
-app.get("/api/patients", asyncHandler(async (req, res) => {
+app.get("/api/patients", authenticateToken, asyncHandler(async (req, res) => {
   const patients = await db.all('SELECT * FROM patients ORDER BY created_at DESC');
   res.json(patients);
 }));
 
 // Appointments
-app.post("/api/appointments", asyncHandler(async (req, res) => {
+app.post("/api/appointments", authenticateToken, asyncHandler(async (req, res) => {
   const { patient_id, service, notes, next_visit_date } = req.body;
   await db.run(
     'INSERT INTO appointments (patient_id, service, notes, next_visit_date) VALUES (?, ?, ?, ?)',
@@ -145,12 +182,12 @@ app.post("/api/appointments", asyncHandler(async (req, res) => {
 }));
 
 // Analytics
-app.get("/api/analytics/areas", asyncHandler(async (req, res) => {
+app.get("/api/analytics/areas", authenticateToken, asyncHandler(async (req, res) => {
   const stats = await db.all('SELECT area, COUNT(*) as count FROM patients GROUP BY area ORDER BY count DESC');
   res.json(stats);
 }));
 
-app.get("/api/analytics/services", asyncHandler(async (req, res) => {
+app.get("/api/analytics/services", authenticateToken, asyncHandler(async (req, res) => {
   const stats = await db.all('SELECT service, COUNT(*) as count FROM appointments GROUP BY service ORDER BY count DESC');
   res.json(stats);
 }));
@@ -162,7 +199,7 @@ app.get("/api/reviews", asyncHandler(async (req, res) => {
   res.json(reviews);
 }));
 
-app.get("/api/admin/reviews", asyncHandler(async (req, res) => {
+app.get("/api/admin/reviews", authenticateToken, asyncHandler(async (req, res) => {
   const reviews = await db.all("SELECT * FROM reviews ORDER BY created_at DESC");
   res.json(reviews);
 }));
@@ -176,7 +213,7 @@ app.post("/api/reviews", asyncHandler(async (req, res) => {
   res.status(201).json({ message: "Review submitted for approval" });
 }));
 
-app.patch("/api/reviews/:id/approve", asyncHandler(async (req, res) => {
+app.patch("/api/reviews/:id/approve", authenticateToken, asyncHandler(async (req, res) => {
   await db.run("UPDATE reviews SET status = 'approved' WHERE id = ?", [req.params.id]);
   res.json({ message: "Review approved" });
 }));
@@ -187,7 +224,7 @@ app.get("/api/journey", asyncHandler(async (req, res) => {
   res.json(posts);
 }));
 
-app.post("/api/journey", asyncHandler(async (req, res) => {
+app.post("/api/journey", authenticateToken, asyncHandler(async (req, res) => {
   const { title, content, image_url, date } = req.body;
   await db.run(
     'INSERT INTO journey_posts (title, content, image_url, date) VALUES (?, ?, ?, ?)',

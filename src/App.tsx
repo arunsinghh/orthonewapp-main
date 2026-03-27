@@ -24,6 +24,15 @@ const ThankYou = lazy(() => import("./pages/ThankYou"));
 const AboutUs = lazy(() => import("./pages/AboutUs"));
 const OurJourney = lazy(() => import("./pages/OurJourney"));
 const Admin = lazy(() => import("./pages/Admin"));
+const Login = lazy(() => import("./pages/Login"));
+import { Navigate } from "react-router-dom";
+
+/* Protected Route Component */
+const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
+  const token = localStorage.getItem("adminToken");
+  if (!token) return <Navigate to="/login" replace />;
+  return <>{children}</>;
+};
 
 /* Layout Wrapper to use useLocation */
 function Layout() {
@@ -49,7 +58,12 @@ function Layout() {
             <Route path="/facility" element={<Facility />} />
             <Route path="/about-us" element={<AboutUs />} />
             <Route path="/our-journey" element={<OurJourney />} />
-            <Route path="/admin" element={<Admin />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/admin" element={
+              <ProtectedRoute>
+                <Admin />
+              </ProtectedRoute>
+            } />
             <Route path="/book-now" element={<BookNow />} />
             <Route path="/thank-you" element={<ThankYou />} />
           </Routes>

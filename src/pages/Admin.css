@@ -520,3 +520,22 @@
   .search-row { flex-direction: column; }
   .bar-list li { grid-template-columns: 80px 1fr 30px; }
 }
+.sidebar-btn.logout-btn {
+  margin-top: auto;
+  color: #f87171 !important;
+  border-top: 1px solid rgba(0,0,0,0.05);
+  margin-top: 2rem;
+}
+
+.sidebar-btn.logout-btn:hover {
+  background: rgba(248, 113, 113, 0.1) !important;
+  color: #ef4444 !important;
+}
+
+@media (max-width: 768px) {
+  .sidebar-btn.logout-btn {
+    margin-top: 0;
+    margin-left: auto;
+    border-top: none;
+  }
+}

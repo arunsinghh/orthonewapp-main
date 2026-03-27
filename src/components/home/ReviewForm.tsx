@@ -9,12 +9,25 @@ const ReviewForm = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const res = await fetch(`${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/reviews`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData),
-    });
-    if (res.ok) setSubmitted(true);
+    try {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/reviews`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      if (res.ok) {
+        setSubmitted(true);
+      } else {
+        alert("Server error. Please try again later.");
+      }
+    } catch (err) {
+      console.error("Submission failed:", err);
+      alert("Cannot connect to the server. Please ensure the backend is running and publicly reachable.");
+      
+      // OPTIONAL: For testing the UI during set up, you can uncomment the line below to simulate success
+      // setSubmitted(true); 
+    }
   };
 
   if (submitted) {
@@ -34,10 +47,9 @@ const ReviewForm = () => {
   return (
     <motion.div
       className="review-form-wrapper"
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5 }}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8 }}
     >
       <div className="review-form-header">
         <h3>Share Your Experience</h3>

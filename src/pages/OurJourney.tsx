@@ -1,17 +1,17 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import "./OurJourney.css";
 
-interface Post {
+interface JourneyPost {
   id: number;
   title: string;
   content: string;
-  image_url: string;
   date: string;
+  image_url: string;
 }
 
 const OurJourney = () => {
-  const [posts, setPosts] = useState<Post[]>([]);
+  const [posts, setPosts] = useState<JourneyPost[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -21,61 +21,71 @@ const OurJourney = () => {
         setPosts(data);
         setLoading(false);
       })
-      .catch((err) => {
-        console.error("Error fetching journey:", err);
-        setLoading(false);
-      });
+      .catch(() => setLoading(false));
   }, []);
+
+  if (loading) return <div className="loading-screen">Loading Our Journey...</div>;
 
   return (
     <div className="journey-page">
-      <section className="journey-hero">
+      {/* Header Section */}
+      <motion.header 
+        className="journey-header"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1 }}
+      >
         <div className="container">
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            Sharing Our Journey
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-          >
-            Stories of resilience, recovery, and life-changing rehabilitation at OrthoproIndia.
-          </motion.p>
+          <h1>Healing Hearts, Restoring Lives</h1>
+          <p>Every patient has a story of courage. Here are the milestones of our collective journey.</p>
         </div>
-      </section>
+      </motion.header>
 
-      <div className="container posts-grid">
-        {loading ? (
-          <p>Loading our stories...</p>
-        ) : posts.length > 0 ? (
-          posts.map((post) => (
-            <motion.article
-              key={post.id}
-              className="post-card"
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-            >
-              <div className="post-image">
-                <img src={post.image_url || "/images/journey-placeholder.jpg"} alt={post.title} />
-              </div>
-              <div className="post-content">
-                <span className="post-date">{post.date}</span>
-                <h2>{post.title}</h2>
-                <p>{post.content}</p>
-              </div>
-            </motion.article>
-          ))
+      {/* Timeline Layout */}
+      <section className="timeline-section container">
+        {posts.length === 0 ? (
+          <p className="no-posts">No stories published yet. Stay tuned!</p>
         ) : (
-          <div className="no-posts">
-            <p>No stories shared yet. Check back soon for inspiring patient journeys!</p>
+          <div className="timeline">
+            {posts.map((post, index) => (
+              <motion.div 
+                key={post.id}
+                className={`timeline-item ${index % 2 === 0 ? "left" : "right"}`}
+                initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+              >
+                <div className="timeline-dot"></div>
+                <div className="timeline-date">{post.date}</div>
+                <div className="timeline-content">
+                  {post.image_url && (
+                    <div className="post-img-wrapper">
+                      <img src={post.image_url} alt={post.title} loading="lazy" />
+                    </div>
+                  )}
+                  <h2>{post.title}</h2>
+                  <p>{post.content}</p>
+                </div>
+              </motion.div>
+            ))}
           </div>
         )}
-      </div>
+      </section>
+
+      {/* CTA Footer */}
+      <motion.section 
+        className="journey-footer container"
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+      >
+        <div className="cta-box">
+          <h3>Your Story Could Be Next</h3>
+          <p>If you have a story to share about your experience with OrthoproIndia, we'd love to hear it.</p>
+          <a href="#testimonial-form" className="primary-btn">Share My Experience</a>
+        </div>
+      </motion.section>
     </div>
   );
 };

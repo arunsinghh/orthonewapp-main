@@ -23,14 +23,26 @@ const Admin = () => {
 
   const fetchPendingReviews = async () => {
     try {
-      const res = await fetch(`${API}/api/admin/reviews`);
+      const res = await fetch(`${API}/api/admin/reviews`, {
+        headers: { "Authorization": `Bearer ${localStorage.getItem("adminToken")}` }
+      });
+      if (res.status === 401) return logout();
       const data = await res.json();
       setPendingReviews(data.filter((r: any) => r.status === "pending"));
     } catch { /* ignore */ }
   };
 
+  const logout = () => {
+    localStorage.removeItem("adminToken");
+    window.location.href = "/login";
+  };
+
   const approveReview = async (id: number) => {
-    await fetch(`${API}/api/reviews/${id}/approve`, { method: "PATCH" });
+    const res = await fetch(`${API}/api/reviews/${id}/approve`, { 
+      method: "PATCH",
+      headers: { "Authorization": `Bearer ${localStorage.getItem("adminToken")}` }
+    });
+    if (res.status === 401) return logout();
     fetchPendingReviews();
   };
 
@@ -39,9 +51,13 @@ const Admin = () => {
     setStatus("Registering...");
     const res = await fetch(`${API}/api/patients`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { 
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${localStorage.getItem("adminToken")}`
+      },
       body: JSON.stringify(patientData),
     });
+    if (res.status === 401) return logout();
     if (res.ok) {
       const data = await res.json();
       setStatus(`✅ Patient ID: ${data.patient_id}`);
@@ -54,23 +70,30 @@ const Admin = () => {
   const fetchStats = async () => {
     try {
       const [areaRes, serviceRes] = await Promise.all([
-        fetch(`${API}/api/analytics/areas`),
-        fetch(`${API}/api/analytics/services`),
+        fetch(`${API}/api/analytics/areas`, { headers: { "Authorization": `Bearer ${localStorage.getItem("adminToken")}` } }),
+        fetch(`${API}/api/analytics/services`, { headers: { "Authorization": `Bearer ${localStorage.getItem("adminToken")}` } }),
       ]);
+      if (areaRes.status === 401 || serviceRes.status === 401) return logout();
       setStats({ areas: await areaRes.json(), services: await serviceRes.json() });
     } catch { /* ignore */ }
   };
 
   const fetchPatients = async () => {
     try {
-      const res = await fetch(`${API}/api/patients`);
+      const res = await fetch(`${API}/api/patients`, {
+        headers: { "Authorization": `Bearer ${localStorage.getItem("adminToken")}` }
+      });
+      if (res.status === 401) return logout();
       setPatients(await res.json());
     } catch { /* ignore */ }
   };
 
   const handleSearch = async () => {
     if (!searchId) return;
-    const res = await fetch(`${API}/api/patients/${searchId}`);
+    const res = await fetch(`${API}/api/patients/${searchId}`, {
+      headers: { "Authorization": `Bearer ${localStorage.getItem("adminToken")}` }
+    });
+    if (res.status === 401) return logout();
     if (res.ok) setSearchResult(await res.json());
     else alert("Patient not found");
   };
@@ -80,9 +103,13 @@ const Admin = () => {
     setStatus("Posting...");
     const response = await fetch(`${API}/api/journey`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { 
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${localStorage.getItem("adminToken")}`
+      },
       body: JSON.stringify(journeyData),
     });
+    if (response.status === 401) return logout();
     if (response.ok) {
       setStatus("✅ Journey posted!");
       setJourneyData({ title: "", content: "", date: "", image_url: "" });
@@ -116,6 +143,9 @@ const Admin = () => {
               {tab.count > 0 && <span className="badge">{tab.count}</span>}
             </button>
           ))}
+          <button className="sidebar-btn logout-btn" onClick={logout}>
+            <span>🚪 Logout</span>
+          </button>
         </nav>
       </aside>
 
