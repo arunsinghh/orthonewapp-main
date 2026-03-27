@@ -124,10 +124,11 @@ const transporter = nodemailer.createTransport({
 // --- AUTH ---
 app.post("/api/login", (req, res) => {
   const { username, password } = req.body;
-  if (username === ADMIN_USER && password === ADMIN_PASS) {
+  if (username?.toLowerCase() === ADMIN_USER.toLowerCase() && password === ADMIN_PASS) {
     const token = jwt.sign({ user: ADMIN_USER }, JWT_SECRET, { expiresIn: '12h' });
     return res.json({ token });
   }
+  console.log(`Failed login attempt: username=${username}`);
   res.status(401).json({ message: "Invalid credentials" });
 });
 
